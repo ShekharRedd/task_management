@@ -3,7 +3,6 @@ pipeline {
     environment {
         image2 = "todo-app"
         tag2 = "latest"
-        VIRTUAL_ENV = 'venv'
     }
     stages {
         stage("install") {
@@ -66,5 +65,6 @@ pipeline {
                 }
             }
         }
+        
     }
 }
