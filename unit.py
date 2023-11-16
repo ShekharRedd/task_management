@@ -77,7 +77,7 @@ class TestApp(unittest.TestCase):
         self.assertEqual(len(tasks), 0)
 
     def test_view_tasks(self):
-        response = self.app.get('/')
+        response = self.app.get('/view_tasks')
         self.assertEqual(response.status_code, 200)
 
 if __name__ == '__main__':
