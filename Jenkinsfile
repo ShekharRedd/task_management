@@ -7,7 +7,7 @@ pipeline{
     stages{
             stage("commit is happen in feature branch") {
             steps {
-                checkout scmGit(branches: [[name: '*/feature']], extensions: [], userRemoteConfigs: [[credentialsId: 'git-webhook', url: 'https://github.com/ShekharRedd/task_management']])
+                checkout scmGit(branches: [[name: '*/feature']], extensions: [], userRemoteConfigs: [[credentialsId: 'git-webhook', url: 'https://github.com/ShekharRedd/task_management.git']])
             }
         }
 
