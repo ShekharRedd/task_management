@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ... rest of the head section ... -->
+    <!-- ... rest of the head section ... -->
+<link rel="stylesheet" href="{{ url_for('static', filename='view.css') }}">
+
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List</h1>
+        <ul>
+            {% for task in tasks %}
+                <li>
+                    {{ task.task }} - Due: {{ task.due_date.strftime('%Y-%m-%d') }}
+                    {% set remaining_time = task.due_date - now %}
+                    {% if remaining_time.days > 0 %}
+                        ({{ remaining_time.days }} days remaining)
+                    {% elif remaining_time.days == 0 %}
+                        (Today)
+                    {% else %}
+                        (Overdue by {{ -remaining_time.days }} days)
+                    {% endif %}
+                    <a href="{{ url_for('delete', task_id=loop.index-1) }}">Delete</a>
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="{{ url_for('index') }}"><button>Home</button></a>
+
+    </div>
+</body>
+</html>

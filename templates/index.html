@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Flask To-Do App</title>
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List</h1>
+        <!-- <ul>
+            {% for task in tasks %}
+                <li>
+                    {{ task.task }} - Due: {{ task.due_date.strftime('%Y-%m-%d') }}
+                    {% set remaining_time = task.due_date - now %}
+                    {% if remaining_time.days > 0 %}
+                        ({{ remaining_time.days }} days remaining)
+                    {% elif remaining_time.days == 0 %}
+                        (Today)
+                    {% else %}
+                        (Overdue by {{ -remaining_time.days }} days)
+                    {% endif %}
+                    <a href="{{ url_for('delete', task_id=loop.index-1) }}">Delete</a>
+                </li>
+            {% endfor %}
+        </ul> -->
+        <form action="{{ url_for('add') }}" method="post">
+            <label for="task">New Task:</label>
+            <input type="text" id="task" name="task" required>
+            <label for="due_date">Due Date:</label>
+            <input type="date" id="due_date" name="due_date" required>
+            <button type="submit">Add Task</button>
+        </form>
+        <br>
+        <a href="{{ url_for('view_tasks') }}"><button>view</button></a>
+        
+    </div>
+</body>
+</html>
