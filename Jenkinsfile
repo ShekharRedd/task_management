@@ -11,33 +11,36 @@ pipeline{
             }
         }
 
-        stage("checkout feature branch"){
-            steps{
-                // echo "executing unit and integration test"
-                dir('/var/jenkins_home/workspace/test-webapp/'){
-                    echo "hello world"
-                    sh "git checkout feature"
-                    sh "git pull origin feature"
-                    def unit=sh(script: 'python unit.py',returnStatus: true)
-                    if(unit==0){
-                        echo "successfully completed the unit test and processding to integration test"
-                        def integration=sh(script: 'python integration.py',returnStatus: true)
-                        if(integration==0){
-                            echo "Successfully executed integation test"
-                            echo "Processding to merge the feature branch to master branch"
-                            
-                        }
-                        else{
-                            error "Integration test failed. Check the feature branch for issues."
-                        }
-                        
-                        }
-                        else{
+        stage("checkout feature branch") {
+            steps {
+                script {
+                    dir('/var/jenkins_home/workspace/test-webapp/') {
+                        echo "hello world"
+                        sh "git checkout feature"
+                        sh "git pull origin feature"
+                        def unit = sh(script: 'python unit.py', returnStatus: true)
+                        if (unit == 0) {
+                            echo "successfully completed the unit test and proceeding to integration test"
+                            def integration = sh(script: 'python integration.py', returnStatus: true)
+                            if (integration == 0) {
+                                echo "Successfully executed integration test"
+                                echo "Proceeding to merge the feature branch to master branch"
+                                // Add your merge steps here if needed
+                            } else {
+                                error "Integration test failed. Check the feature branch for issues."
+                            }
+                        } else {
                             error "Failed unit test. Check the feature branch for issues."
+                        }
                     }
                 }
             }
         }
+
+        // Add your other stages here as needed
+
+    
+
 
         // stage("Checkout and Merge Feature Branch") {
         //     steps {
