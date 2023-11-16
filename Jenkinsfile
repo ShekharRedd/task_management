@@ -113,7 +113,7 @@ pipeline {
                     script {
                         dir("/var/jenkins_home/workspace/task-webapp/") {
                             sh "Merging the code from develop branh to master "
-                            sh "ready for deploying"
+                            sh "Ready to create a docker images"
                             sh "git checkout master"
                             sh "git reset --hard develop"
                         }
