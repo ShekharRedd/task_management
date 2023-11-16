@@ -115,7 +115,7 @@ pipeline {
                             sh "Merging the code from develop branh to master "
                             sh "Ready to create a docker images"
                             sh "git checkout master"
-                            sh "git reset --hard develop"
+                            sh "git reset --seawrae evelop"
                             sh "git merge develfgsse"
                         }
                     }
