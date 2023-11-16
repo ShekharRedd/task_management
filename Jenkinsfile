@@ -73,20 +73,55 @@ pipeline {
                 }
             }
         }
-        stage("merge to develop branch"){
-            when{
-                expression{
-                    BRANCH_NAME == 
-                }
-            }
-            steps{
-                script{
-                    dir("/var/jenkins_home/workspace/task-webapp"){
-                        sh "echo"
+        stage("merge to develop branch") {
+                when {
+                    expression {
+                        BRANCH_NAME == 'feature'
                     }
-
+                }
+                steps {
+                    script {
+                        dir("/var/jenkins_home/workspace/task-webapp/") {
+                            sh "git checkout develop"
+                            sh "git pull origin develop"
+                            // Attempt to merge the feature branch
+                            catchError(buildResult: 'FAILURE') {
+                                sh "git merge feature"
+                            }
+                            // Check if the merge was successful or if there were conflicts
+                            def mergeStatus = sh(script: 'git merge-base develop feature', returnStatus: true)
+                            
+                            if (mergeStatus != 0) {
+                                // Merge conflicts occurred
+                                error "Merge conflicts occurred. Please resolve conflicts manually and try again."
+                            } else {
+                                // No conflicts, push the changes to develop
+                                sh "git push origin develop"
+                            }
+                        }
+                    }
                 }
             }
-        }
+
+            stage("Merge to master branch") {
+                when {
+                    expression {
+                        BRANCH_NAME == 'master'
+                    }
+                }
+                steps {
+                    script {
+                        dir("/var/jenkins_home/workspace/task-webapp/") {
+                            sh "Merging the code from develop branh to master "
+                            sh "ready for deploying"
+                            sh "git checkout master"
+                            sh "git reset --hard develop"
+                            sh "git merge develop"
+                            
+                        }
+                    }
+                }
+            }
+
     }
 }
