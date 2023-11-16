@@ -33,7 +33,7 @@ class TestIntegration(unittest.TestCase):
         self.assertEqual(len(tasks), 0)
 
         # Simulate viewing tasks after deletion
-        response = self.app.get('/view_tasks')
+        response = self.app.get('/view_ks')
 
         self.assertEqual(response.status_code, 200)
         self.assertNotIn(b'Test Task', response.data)

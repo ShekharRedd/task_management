@@ -14,7 +14,7 @@ pipeline{
         stage("checkout feature branch") {
             steps {
                 script {
-                    dir('/var/jenkins_home/workspace/tast-webapp/') {
+                    dir('/var/jenkins_home/workspace/task-webapp/') {
                         echo "hello world"
                         sh "git checkout feature"
                         sh "git pull origin feature"
@@ -68,16 +68,16 @@ pipeline{
         // stage("Building docker image"){
         //     steps{
         //         script{
-        //         dir('/var/jenkins_home/workspace/build-jenkins-pipeline/'){
-        //         echo "========executing A========"
-        //         withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-        //         sh "git checkout main"
-        //         sh "cd /var/jenkins_home/workspace/build-jenkins-pipeline/FifthReact/ &&  docker build -t ${image2}:${tag2} ."
-        //         sh 'echo $USER'
-        //         sh "echo $PASS | docker login -u $USER --password-stdin"
-        //         sh "docker tag ${image2}:${tag2} $USER/${image2}:${tag2}"
-        //         sh "docker push $USER/${image2}:${tag2}"
-        //         }                
+                // dir('/var/jenkins_home/workspace/build-jenkins-pipeline/'){
+                // echo "========executing A========"
+                // withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                // sh "git checkout main"
+                // sh "cd /var/jenkins_home/workspace/build-jenkins-pipeline/FifthReact/ &&  docker build -t ${image2}:${tag2} ."
+                // sh 'echo $USER'
+                // sh "echo $PASS | docker login -u $USER --password-stdin"
+                // sh "docker tag ${image2}:${tag2} $USER/${image2}:${tag2}"
+                // sh "docker push $USER/${image2}:${tag2}"
+                // }                
                 
         //         }
         //     }
