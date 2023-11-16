@@ -7,16 +7,7 @@ pipeline{
     stages{
             stage("commit is happen in feature branch") {
             steps {
-                script {
-                    // Trigger the pipeline only if there are changes in the feature branch
-                    if (changeset("*/feature")) {
-                        echo "Changes detected in the feature branch. Proceeding with the pipeline."
-                    } else {
-                        echo "No changes in the feature branch. Exiting pipeline."
-                        currentBuild.result = 'ABORTED'
-                        return
-                    }
-                }
+                checkout scmGit(branches: [[name: '*/feature']], extensions: [], userRemoteConfigs: [[credentialsId: 'git-webhook', url: 'https://github.com/ShekharRedd/task_management']])
             }
         }
 
@@ -39,9 +30,10 @@ pipeline{
                         else{
                             error "Integration test failed. Check the feature branch for issues."
                         }
+                        
+                        }
                         else{
                             error "Failed unit test. Check the feature branch for issues."
-                        }
                     }
                 }
             }
