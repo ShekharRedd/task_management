@@ -5,6 +5,14 @@ pipeline {
         tag2 = "latest"
     }
     stages {
+
+        stage("checkout to feature branch"){
+            steps{
+                script{
+                     checkout scmGit(branches: [[name: '*/feature']], extensions: [], userRemoteConfigs: [[credentialsId: 'git-webhook', url: 'https://github.com/ShekharRedd/task_management.git']])
+                }
+            }
+        }
         stage("install") {
             steps {
                 catchError(buildResult: 'UNSTABLE') {
@@ -65,6 +73,20 @@ pipeline {
                 }
             }
         }
-        stage("merge to ")
+        stage("merge to develop branch"){
+            when{
+                expression{
+                    BRANCH_NAME == 
+                }
+            }
+            steps{
+                script{
+                    dir("/var/jenkins_home/workspace/task-webapp"){
+                        sh "echo"
+                    }
+
+                }
+            }
+        }
     }
 }
