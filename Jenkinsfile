@@ -116,12 +116,9 @@ pipeline {
                             sh "ready for deploying"
                             sh "git checkout master"
                             sh "git reset --hard develop"
-                            sh "git merge develop"
-                            
                         }
                     }
                 }
             }
-
     }
 }
