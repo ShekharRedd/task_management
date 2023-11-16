@@ -14,7 +14,7 @@ pipeline{
         stage("checkout feature branch") {
             steps {
                 script {
-                    dir('/var/jenkins_home/workspace/test-webapp/') {
+                    dir('/var/jenkins_home/workspace/tast-webapp/') {
                         echo "hello world"
                         sh "git checkout feature"
                         sh "git pull origin feature"
