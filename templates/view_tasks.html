@@ -6,10 +6,10 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='view.css') }}">
 
 </head>
-<body>
+<body class="viewtask">
     <div class="container">
-        <h1>To-Do List</h1>
-        <ul>
+        <h1>Tasks List</h1>
+        <ol>
             {% for task in tasks %}
                 <li>
                     {{ task.task }} - Due: {{ task.due_date.strftime('%Y-%m-%d') }}
@@ -19,12 +19,12 @@
                     {% elif remaining_time.days == 0 %}
                         (Today)
                     {% else %}
-                        (Overdue by {{ -remaining_time.days }} days)
+                                <!-- (Overdue by {{ -remaining_time.days }} days) -->
                     {% endif %}
-                    <a href="{{ url_for('delete', task_id=loop.index-1) }}">Delete</a>
+                    <a href="{{ url_for('delete', task_id=loop.index-1) }}"><img width="20px" height="20px" src="https://cdn.pixabay.com/photo/2023/03/30/17/34/ai-generated-7888395_1280.png"/></a>
                 </li>
             {% endfor %}
-        </ul>
+        </ol>
         <a href="{{ url_for('index') }}"><button>Home</button></a>
 
     </div>
