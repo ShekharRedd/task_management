@@ -70,7 +70,7 @@ pipeline {
                 }
             }
         }
-        stage("commit is happen in feature branch") {
+        stage("merge is happen in develop branch") {
             steps {
                 checkout scmGit(branches: [[name: '*/develop']], extensions: [], userRemoteConfigs: [[credentialsId: 'git-webhook', url: 'https://github.com/ShekharRedd/task_management.git']])
                 sh "git merge --no-ff origin/feature"
