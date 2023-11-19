@@ -86,7 +86,7 @@ pipeline {
                             sh "git pull origin develop"
                             // Attempt to merge the feature branch
                             catchError(buildResult: 'FAILURE') {
-                                sh "git merge feature"
+                                sh "git merge origin/feature"
                             }
                             // Check if the merge was successful or if there were conflicts
                             def mergeStatus = sh(script: 'git merge-base develop feature', returnStatus: true)
