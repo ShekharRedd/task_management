@@ -1,10 +1,15 @@
 pipeline {
     agent any 
     environment {
-        image2 = "todo-app"
+        image2 = "ganesh"
         tag2 = "latest"
     }
     stages {
+        stage("commit is happen in feature branch") {
+            steps {
+                checkout scmGit(branches: [[name: '*/feature']], extensions: [], userRemoteConfigs: [[credentialsId: 'git-webhook', url: 'https://github.com/ShekharRedd/task_management.git']])
+            }
+        }
         stage("install") {
             steps {
                 catchError(buildResult: 'UNSTABLE') {
@@ -63,6 +68,13 @@ pipeline {
                         }
                     }
                 }
+            }
+        }
+        stage("commit is happen in feature branch") {
+            steps {
+                checkout scmGit(branches: [[name: '*/develop']], extensions: [], userRemoteConfigs: [[credentialsId: 'git-webhook', url: 'https://github.com/ShekharRedd/task_management.git']])
+                sh "git merge --no-ff origin/feature"
+                sh "git push origin develop"
             }
         }
         
