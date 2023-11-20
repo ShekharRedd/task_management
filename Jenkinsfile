@@ -5,12 +5,13 @@ pipeline{
         tag2="latest"
     }
     stages{
-        stage("hello")
+        stage("Intro")
         {
             steps
             {
                 echo "checkout develop"
                 // checkout scmGit(branches: [[name: '*/develop']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-github', url: 'https://github.com/ShekharRedd/task_management.git']])
+
             }
         }
         stage("Build the images "){
@@ -23,13 +24,13 @@ pipeline{
                         sh "git branch"
                         echo "========Building docker image  ========"
                         echo "adding echo comand"
-                //             withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                //             sh "docker build -t ${image2}:${tag2} ."
-                //             sh 'echo $USER'
-                //             sh "echo $PASS | docker login -u $USER --password-stdin"
-                //             sh "docker tag ${image2}:${tag2} $USER/${image2}:${tag2}"
-                //             sh "docker push $USER/${image2}:${tag2}"
-                // }   
+                            withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                            sh "docker build -t ${image2}:${tag2} ."
+                            sh 'echo $USER'
+                            sh "echo $PASS | docker login -u $USER --password-stdin"
+                            sh "docker tag ${image2}:${tag2} $USER/${image2}:${tag2}"
+                            sh "docker push $USER/${image2}:${tag2}"
+                }   
                     }             
             }
                 }
