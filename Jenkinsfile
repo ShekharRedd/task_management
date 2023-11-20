@@ -5,9 +5,9 @@ pipeline {
         tag2 = "latest"
     }
     stages {
-        stage("checkout to feature branch"){
-            steps{
-                script{
+        stage("checkout to feature branch") {
+            steps {
+                script {
                     echo "hello world feature branch"
                     //  checkout scmGit(branches: [[name: '*/feature']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-github', url: 'https://github.com/ShekharRedd/task_management.git']])
                 }
@@ -18,7 +18,6 @@ pipeline {
                 catchError(buildResult: 'UNSTABLE') {
                     script {
                         echo "hi"
-                        
                         sh 'python3 -m venv venv'
                         def venvPath = "${env.WORKSPACE}/venv/bin"
                         def pythonCommand = "${venvPath}/python"
@@ -35,8 +34,8 @@ pipeline {
         }
 
         stage('Run Unit Tests') {
-            steps {
-                catchError(buildResult: 'FAILURE') {
+            catchError(buildResult: 'FAILURE') {
+                steps {
                     script {
                         def venvPath = "${env.WORKSPACE}/venv/bin"
                         def activateScript = "${venvPath}/activate"
@@ -52,22 +51,10 @@ pipeline {
                         }
                     }
                 }
-            // post {
-            //     success {
-            //         echo 'Successfully completed the Unit Test proceding to Intergation test'
-            //         // Additional actions for success
-            //     }
-            //     failure {
-            //         echo 'Failed Unit test check it once'
-            //         // Additional actions for failure
-            //     }
-            // }
-                
             }
         }
 
         stage('Run Integration Tests') {
-
             steps {
                 catchError(buildResult: 'FAILURE') {
                     script {
@@ -86,31 +73,30 @@ pipeline {
                     }
                 }
             }
-
         }
     }
 
     post {
-        success {
-            script{
-            emailext sject: 'Jenins Pipeline Successful executed',
-                      body: 'raise pull request',
-                    //   recipientProviders: [[$class: 'CulpritsRecipientProvider']],
-                      to: 'shekharreddy1010@gmail.com'
-                      
+        failure {
+            script {
+                error("Pipeline failed. Please check the condition.")
             }
-
+        }
+        success {
+            script {
+                emailext subject: 'Jenins Pipeline Successful executed',
+                body: 'Raise pull request',
+                // recipientProviders: [[$class: 'CulpritsRecipientProvider']],
+                to: 'shekharreddy1010@gmail.com'
+            }
         }   
         failure {
-            script{
-            emailext subject: 'Jenkins Pipeline Successful executed',
-                      body: 'raise pull request',
-                    //   recipientProviders: [[$class: 'CulpritsRecipientProvider']],
-                      to: 'shekharreddy1010@gmail.com'
+            script {
+                emailext subject: 'Jenkins Pipeline Failed',
+                body: 'Please check the condition',
+                // recipientProviders: [[$class: 'CulpritsRecipientProvider']],
+                to: 'shekharreddy1010@gmail.com'
             }
         }
     }
-
-
 }
-
