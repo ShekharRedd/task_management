@@ -17,7 +17,6 @@ pipeline{
         }
         stage("Build the images "){
             steps{
-
                 script{
                     dir('/var/jenkins_home/workspace/feature_branch')
                     {
