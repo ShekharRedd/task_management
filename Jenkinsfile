@@ -78,11 +78,6 @@ pipeline {
     }
 
     post {
-        failure {
-            script {
-                error("Pipeline failed. Please check the condition.")
-            }
-        }
         success {
             script {
                 emailext subject: 'Jenins Pipeline Successful executed',
