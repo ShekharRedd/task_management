@@ -93,7 +93,7 @@ pipeline {
     post {
         success {
             script{
-            emailext subject: 'Jenkins Pipeline Successful executed',
+            emailext sject: 'Jenins Pipeline Successful executed',
                       body: 'raise pull request',
                     //   recipientProviders: [[$class: 'CulpritsRecipientProvider']],
                       to: 'shekharreddy1010@gmail.com'
