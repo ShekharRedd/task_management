@@ -80,20 +80,18 @@ pipeline {
     post {
         success {
             script {
-                archiveArtifacts '**/*.log'
+                def buildLog = currentBuild.rawBuild.getLog()
                 emailext subject: 'Jenkins Pipeline Successful',
-                      body: "The Jenkins pipeline has completed successfully.\n\nBuild Log: ${BUILD_URL}artifact/*/build.log",
+                          body: "The Jenkins pipeline has completed successfully.\n\nBuild Log:\n${buildLog}",
                 // recipientProviders: [[$class: 'CulpritsRecipientProvider']],
-                to: 'shekharreddy1010@gmail.com'
+                        to: 'shekharreddy1010@gmail.com'
             }
         }   
         failure {
             script {
-                archiveArtifacts '**/*.log'
+                def buildLog = currentBuild.rawBuild.getLog()
                 emailext subject: 'Jenkins Pipeline Successful',
-                      body: "The Jenkins pipeline has completed successfully.\n\nBuild Log: ${BUILD_URL}artifact/*/build.log"                
-                emailext subject: 'Jenkins Pipeline Failed',
-                body: 'Please check the condition',
+                          body: "The Jenkins pipeline has completed successfully.\n\nBuild Log:\n${buildLog}",
                 // recipientProviders: [[$class: 'CulpritsRecipientProvider']],
                 to: 'shekharreddy1010@gmail.com'
             }
