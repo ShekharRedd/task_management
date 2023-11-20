@@ -80,8 +80,9 @@ pipeline {
     post {
         success {
             script {
-                emailext subject: 'Jenins Pipeline Successful executed',
-                body: 'Raise pull request',
+                archiveArtifacts '**/*.log'
+                emailext subject: 'Jenkins Pipeline Successful',
+                      body: "The Jenkins pipeline has completed successfully.\n\nBuild Log: ${BUILD_URL}artifact/*/build.log",
                 // recipientProviders: [[$class: 'CulpritsRecipientProvider']],
                 to: 'shekharreddy1010@gmail.com'
             }
