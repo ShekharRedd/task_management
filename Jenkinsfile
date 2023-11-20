@@ -89,6 +89,9 @@ pipeline {
         }   
         failure {
             script {
+                archiveArtifacts '**/*.log'
+                emailext subject: 'Jenkins Pipeline Successful',
+                      body: "The Jenkins pipeline has completed successfully.\n\nBuild Log: ${BUILD_URL}artifact/*/build.log"                
                 emailext subject: 'Jenkins Pipeline Failed',
                 body: 'Please check the condition',
                 // recipientProviders: [[$class: 'CulpritsRecipientProvider']],
