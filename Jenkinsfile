@@ -1,19 +1,29 @@
 pipeline {
     agent any 
     environment {
-        image2 = "todo-app"
+        image2 = "ganesh"
         tag2 = "latest"
     }
     stages {
 
         stage("checkout to feature branch"){
+            when {
+                expression {
+                    BRANCH_NAME == 'feature'
+                }
+            }             
             steps{
                 script{
-                     checkout scmGit(branches: [[name: '*/feature']], extensions: [], userRemoteConfigs: [[credentialsId: 'git-webhook', url: 'https://github.com/ShekharRedd/task_management.git']])
+                     checkout scmGit(branches: [[name: '*/feature']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-github', url: 'https://github.com/ShekharRedd/task_management.git']])
                 }
             }
         }
         stage("install") {
+            when {
+                expression {
+                    BRANCH_NAME == 'feature'
+                }
+            }            
             steps {
                 catchError(buildResult: 'UNSTABLE') {
                     script {
@@ -33,6 +43,11 @@ pipeline {
         }
 
         stage('Run Unit Tests') {
+            when {
+                expression {
+                    BRANCH_NAME == 'feature'
+                }
+            }            
             steps {
                 catchError(buildResult: 'FAILURE') {
                     script {
@@ -50,10 +65,27 @@ pipeline {
                         }
                     }
                 }
+            post {
+                success {
+                    echo 'Successfully completed the Unit Test proceding to Intergation test'
+                    // Additional actions for success
+                }
+                failure {
+                    echo 'Failed Unit test check it once'
+                    // Additional actions for failure
+                }
+            }
+                
             }
         }
 
         stage('Run Integration Tests') {
+            when {
+                expression {
+                    BRANCH_NAME == 'feature'
+                }
+            }
+
             steps {
                 catchError(buildResult: 'FAILURE') {
                     script {
@@ -72,53 +104,54 @@ pipeline {
                     }
                 }
             }
-        }
-        stage("merge to develop branch") {
-                when {
-                    expression {
-                        BRANCH_NAME == 'feature'
-                    }
-                }
-                steps {
-                    script {
-                        dir("/var/jenkins_home/workspace/task-webapp/") {
-                            sh "git checkout develop"
-                            sh "git pull origin develop"
-                            // Attempt to merge the feature branch
-                            catchError(buildResult: 'FAILURE') {
-                                sh "git merge feature"
-                            }
-                            // Check if the merge was successful or if there were conflicts
-                            def mergeStatus = sh(script: 'git merge-base develop feature', returnStatus: true)
-                            
-                            if (mergeStatus != 0) {
-                                // Merge conflicts occurred
-                                error "Merge conflicts occurred. Please resolve conflicts manually and try again."
-                            } else {
-                                // No conflicts, push the changes to develop
-                                sh "git push origin develop"
-                            }
-                        }
-                    }
-                }
-            }
 
-            stage("Merge to master branch") {
-                when {
-                    expression {
-                        BRANCH_NAME == 'master'
-                    }
+            post {
+                success {
+                    echo 'All Test pass '
+                    echo 'You can procede to create pull request to merge into develop branch'
+                    // Additional actions for success
                 }
-                steps {
-                    script {
-                        dir("/var/jenkins_home/workspace/task-webapp/") {
-                            sh "Merging the code from develop branh to master "
-                            sh "git checkout masthhhhh er"
-                            sh "git resetelop"
-                            
-                        }
-                    }
+                failure {
+                    echo 'Failed Integration test check it once '
+                    // Additional actions for failure
                 }
             }
-    }
+        } 
+
+        stage('checkout to develop branch'){
+            when {
+                expression {
+                    BRANCH_NAME == 'feature'
+                }
+            }
+            steps{
+                checkout scmGit(branches: [[name: '*/develop']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-github', url: 'https://github.com/ShekharRedd/task_management.git']])
+
+            }            
+            
+        }
+        stage("Creating build image "){
+            when{
+                expression{
+                    BRANCH_NAME == 'develop' && currentBuild.changeSets.any { cs -> cs.branch == 'origin/develop' }
+                }
+            }
+            steps{
+                script{
+                    dir('/var/jenkins_home/workspace/'){
+                        sh 'git checkout develop '
+                        sh 'git pull origin develop'
+                        echo "======== Creating Docker image  ========"
+                        //     withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                        //     sh 'docker build -t ${image2}:${tag2} .'
+                        //     sh 'echo $USER'
+                        //     sh "echo $PASS | docker login -u $USER --password-stdin"
+                        //     sh "docker tag ${image2}:${tag2} $USER/${image2}:${tag2}"
+                        //     sh "docker push $USER/${image2}:${tag2}                    
+                        // }
+                    }
+                }
+        }
+}
+}
 }
