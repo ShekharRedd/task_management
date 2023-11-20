@@ -13,34 +13,63 @@ body {
     padding: 20px;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-image: url("https://media.istockphoto.com/id/1095286208/photo/light-blue-paper-color-with-texture-for-background.jpg?b=1&s=612x612&w=0&k=20&c=eWPFSlCRZUamd2e_C9qbOXTqKVNww6q0Z4UnoXoJeVA=");
+    background-size: cover;
 }
 
 h1 {
     color: #333;
+    text-align: center;
 }
 
-ul {
+/* ul {
     list-style-type: none;
     padding: 0;
-}
+} */
 
-li {
+/* li {
     margin-bottom: 10px;
-}
+} */
 
 button {
-    background-color: #4caf50;
+    background-color: #007bff;
     color: #fff;
     padding: 10px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    margin-left: 340px;
+    width: 100px;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #0056b3;
 }
 
-a {
-    text-decoration
+
+.viewtask {
+    background-image: url("https://static.vecteezy.com/system/resources/thumbnails/007/937/895/small/modern-low-poly-light-blue-triangle-shapes-background-free-vector.jpg");
+    background-size: cover;
+}
+
+li a {
+    text-decoration: none;
+    color: #333;
+}
+li {
+    flex: 1; /* Make each list item flexible */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+    margin-right: 40px;
+    list-style: square;
+    background-color: #ADD8E6;
+    padding: 8px;
+}
+ol {
+    list-style: square;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }

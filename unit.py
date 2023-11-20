@@ -60,7 +60,7 @@ class TestApp(unittest.TestCase):
 
     def test_add(self):
         task_data = {'task': 'Test Task', 'due_date': '2023-11-30'}
-        response = self.app.post('dd', data=task_data, follow_redirects=True)
+        response = self.app.post('/add', data=task_data, follow_redirects=True)
 
         self.assertEqual(response.status_code, 200)
         self.assertIn({'task': 'Test Task', 'due_date': datetime(2023, 11, 30)}, tasks)

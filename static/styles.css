@@ -12,10 +12,14 @@ body {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-image: url("https://media.istockphoto.com/id/1095286208/photo/light-blue-paper-color-with-texture-for-background.jpg?b=1&s=612x612&w=0&k=20&c=eWPFSlCRZUamd2e_C9qbOXTqKVNww6q0Z4UnoXoJeVA=");
+    background-size: cover;
+    padding: 40px;
 }
 
 h1 {
     color: #333;
+    text-align: center;
 }
 
 ul {
@@ -35,7 +39,7 @@ li {
 
 a {
     color: red;
-    margin-left: 10px;
+    margin-left: 0px;
     text-decoration: none;
 }
 
@@ -61,12 +65,17 @@ button {
     background-color: #007bff;
     color: #fff;
     border: none;
-    border-radius: 3px;
+    border-radius: 6px;
     cursor: pointer;
+    width: 200px;
+    margin-left: 280px;
 }
 
 button:hover {
     background-color: #0056b3;
 }
-
+.bodyContainer {
+    background-image: url("https://img.freepik.com/premium-photo/abstract-curve-pattern-blue-white-background_49758-667.jpg");
+    background-size: cover;
+}
 
