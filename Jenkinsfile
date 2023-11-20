@@ -19,6 +19,7 @@ pipeline{
                     dir('/var/jenkins_home/workspace/feature_branch')
                     {
                             echo "========Building docker image  ========"
+                            echo "adding echo comand"
                             withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                             sh "docker build -t ${image2}:${tag2} ."
                             sh 'echo $USER'
