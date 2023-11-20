@@ -8,6 +8,7 @@ pipeline {
         stage("checkout to feature branch") {
             steps {
                 script {
+                    echo "welcome to feature branch"
                     echo "hello world feature branch"
                     //  checkout scmGit(branches: [[name: '*/feature']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-github', url: 'https://github.com/ShekharRedd/task_management.git']])
                 }
@@ -91,7 +92,6 @@ pipeline {
         failure {
             def buildLog = currentBuild.rawBuild.getLog().join('\n')
             script {
-                
                 emailext subject: 'Jenkins Pipeline Successful',
                           body: "The Jenkins pipeline has completed successfully.\n\nBuild Log:\n${buildLog}",
                 // recipientProviders: [[$class: 'CulpritsRecipientProvider']],
