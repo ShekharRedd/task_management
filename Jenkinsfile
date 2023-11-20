@@ -34,8 +34,9 @@ pipeline {
         }
 
         stage('Run Unit Tests') {
+            steps {
             catchError(buildResult: 'FAILURE') {
-                steps {
+                
                     script {
                         def venvPath = "${env.WORKSPACE}/venv/bin"
                         def activateScript = "${venvPath}/activate"
