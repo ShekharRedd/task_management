@@ -109,11 +109,11 @@ pipeline {
 
     post {
         always {
-            def logs = currentBuild.rawBuild.getLog(1000)
+            
             script {
                 // Capture console logs
                  // You can adjust the number to capture more or fewer lines
-
+                def logs = currentBuild.rawBuild.getLog(1000)
                 // Send console logs via email
                 emailext subject: 'Jenkins Build Log',
                           body: logs,
