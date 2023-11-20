@@ -16,6 +16,7 @@ pipeline {
             steps {
                 catchError(buildResult: 'UNSTABLE') {
                     script {
+                        echo "command"
                         sh 'python3 -m venv venv'
                         def venvPath = "${env.WORKSPACE}/venv/bin"
                         def pythonCommand = "${venvPath}/python"
