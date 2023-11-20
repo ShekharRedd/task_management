@@ -5,7 +5,7 @@ pipeline{
         tag2="latest"
     }
     stages{
-        stage("hello")
+        stage("Intro")
         {
             steps
             {
