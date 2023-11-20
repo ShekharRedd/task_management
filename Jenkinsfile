@@ -79,8 +79,9 @@ pipeline {
 
     post {
         success {
+            def buildLog = currentBuild.rawBuild.getLog().join('\n')
             script {
-                def buildLog = currentBuild.rawBuild.getLog()
+                
                 emailext subject: 'Jenkins Pipeline Successful',
                           body: "The Jenkins pipeline has completed successfully.\n\nBuild Log:\n${buildLog}",
                 // recipientProviders: [[$class: 'CulpritsRecipientProvider']],
@@ -88,8 +89,9 @@ pipeline {
             }
         }   
         failure {
+            def buildLog = currentBuild.rawBuild.getLog().join('\n')
             script {
-                def buildLog = currentBuild.rawBuild.getLog()
+                
                 emailext subject: 'Jenkins Pipeline Successful',
                           body: "The Jenkins pipeline has completed successfully.\n\nBuild Log:\n${buildLog}",
                 // recipientProviders: [[$class: 'CulpritsRecipientProvider']],
