@@ -1,7 +1,7 @@
 pipeline{
     agent any 
     environment{
-        image2="ganesh"
+        image2="gansh"
         tag2="latest"
     }
     stages{
@@ -9,7 +9,7 @@ pipeline{
         {
             steps
             {
-                echo "checkout master"
+                echo "checkout develop"
                 // checkout scmGit(branches: [[name: '*/develop']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-github', url: 'https://github.com/ShekharRedd/task_management.git']])
             }
         }
