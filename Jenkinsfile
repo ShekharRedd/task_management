@@ -124,7 +124,9 @@ pipeline {
                 }
             }
             steps{
+                script{
                 checkout scmGit(branches: [[name: '*/develop']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-github', url: 'https://github.com/ShekharRedd/task_management.git']])
+                }
 
             }            
             
@@ -132,7 +134,7 @@ pipeline {
         stage("Creating build image "){
             when{
                 expression{
-                    BRANCH_NAME == 'develop' && currentBuild.changeSets.any { cs -> cs.branch == 'origin/develop' }
+                    BRANCH_NAME == 'develop' && currentBuild.changeSets.any { cs -> cs.branch == 'origin/develop'}
                 }
             }
             steps{
@@ -151,6 +153,8 @@ pipeline {
                     }
                 }
         }
+
 }
 }
+
 }
