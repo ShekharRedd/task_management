@@ -95,9 +95,8 @@ pipeline {
             emailext subject: 'Jenkins Pipeline Successful executed',
                       body: 'raise pull request',
                     //   recipientProviders: [[$class: 'CulpritsRecipientProvider']],
-                      to: 'shekharreddy1010@gmail.com',
-                      mimeType: 'text/html',
-                      attachLog: true
+                      to: 'shekharreddy1010@gmail.com'
+                      
             }
 
         }   
@@ -107,8 +106,6 @@ pipeline {
                       body: 'raise pull request',
                     //   recipientProviders: [[$class: 'CulpritsRecipientProvider']],
                       to: 'shekharreddy1010@gmail.com'
-                      mimeType: 'text/html',
-                      attachLog: true                      
             }
         }
     }
