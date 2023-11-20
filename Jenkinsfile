@@ -88,17 +88,31 @@ pipeline {
             }
 
         }
-    post { 
-        success { 
-            echo 'Successfully cmpleted with unit test and integration test'
-            echo "You can procede to "
-        }
+
+    post {
+        success {
+            script{
+            emailext subject: 'Jenkins Pipeline Successful executed',
+                      body: 'raise pull request',
+                    //   recipientProviders: [[$class: 'CulpritsRecipientProvider']],
+                      to: 'shekharreddy1010@gmail.com',
+                      mimeType: 'text/html',
+                      attachLog: true
+            }
+
+        }   
         failure {
-            echo "Failed the pipeline please check the conditon"
+            script{
+            emailext subject: 'Jenkins Pipeline Successful executed',
+                      body: 'raise pull request',
+                    //   recipientProviders: [[$class: 'CulpritsRecipientProvider']],
+                      to: 'shekharreddy1010@gmail.com'
+                      mimeType: 'text/html',
+                      attachLog: true                      
+            }
         }
     }
-
-
 }
 
 }
+
