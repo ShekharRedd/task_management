@@ -80,25 +80,45 @@ pipeline {
         }
     }
 
-    post {
-        success {
-            def buildLog = currentBuild.rawBuild.getLog().join('\n')
-            script {
+    // post {
+    //     success {
+    //         // def buildLog = currentBuild.rawBuild.getLog().join('\n')
+    //         script {
                 
-                emailext subject: 'Jenkins Pipeline Successful',
-                          body: "The Jenkins pipeline has completed successfully.\n\nBuild Log:\n${buildLog}",
-                // recipientProviders: [[$class: 'CulpritsRecipientProvider']],
-                        to: 'shekharreddy1010@gmail.com'
-            }
-        }   
-        failure {
-            def buildLog = currentBuild.rawBuild.getLog().join('\n')
+    //             emailext subject: 'Jenkins Pipeline Successful',
+    //                       body: "The Jenkins pipeline has completed successfully.Build Log:",
+    //             // recipientProviders: [[$class: 'CulpritsRecipientProvider']],
+    //                     to: 'shekharreddy1010@gmail.com'
+    //                     mimeType: 'text/html'
+    //                     attachLog: true
+                        
+    //         }
+    //     }   
+    //     failure {
+    //         // def buildLog = currentBuild.rawBuild.getLog().join('\n')
+    //         script {
+    //             emailext subject: 'Jenkins Pipeline Successful',
+    //                       body: "The Jenkins pipeline has completed successfully.\n\nBuild Log:\n",
+    //             // recipientProviders: [[$class: 'CulpritsRecipientProvider']],
+    //             to: 'shekharreddy1010@gmail.com'
+    //             mimeType: 'text/html'
+    //             attachLog: true
+    //         }
+    //     }
+    // }
+
+    post {
+        always {
             script {
-                emailext subject: 'Jenkins Pipeline Successful',
-                          body: "The Jenkins pipeline has completed successfully.\n\nBuild Log:\n${buildLog}",
-                // recipientProviders: [[$class: 'CulpritsRecipientProvider']],
-                to: 'shekharreddy1010@gmail.com'
+                // Capture console logs
+                def logs = currentBuild.rawBuild.getLog(1000) // You can adjust the number to capture more or fewer lines
+
+                // Send console logs via email
+                emailext subject: 'Jenkins Build Log',
+                          body: logs,
+                          to: 'shekharreddy1010@gmail.com'
             }
         }
     }
+
 }
