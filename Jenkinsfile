@@ -6,11 +6,6 @@ pipeline {
     }
     stages {
         stage("checkout to feature branch"){
-            when {
-                expression {
-                    BRANCH_NAME == 'feature'
-                }
-            }             
             steps{
                 script{
                      checkout scmGit(branches: [[name: '*/feature']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-github', url: 'https://github.com/ShekharRedd/task_management.git']])
@@ -18,11 +13,6 @@ pipeline {
             }
         }
         stage("install") {
-            when {
-                expression {
-                    BRANCH_NAME == 'feature'
-                }
-            }            
             steps {
                 catchError(buildResult: 'UNSTABLE') {
                     script {
@@ -42,11 +32,6 @@ pipeline {
         }
 
         stage('Run Unit Tests') {
-            when {
-                expression {
-                    BRANCH_NAME == 'feature'
-                }
-            }            
             steps {
                 catchError(buildResult: 'FAILURE') {
                     script {
@@ -64,26 +49,21 @@ pipeline {
                         }
                     }
                 }
-            post {
-                success {
-                    echo 'Successfully completed the Unit Test proceding to Intergation test'
-                    // Additional actions for success
-                }
-                failure {
-                    echo 'Failed Unit test check it once'
-                    // Additional actions for failure
-                }
-            }
+            // post {
+            //     success {
+            //         echo 'Successfully completed the Unit Test proceding to Intergation test'
+            //         // Additional actions for success
+            //     }
+            //     failure {
+            //         echo 'Failed Unit test check it once'
+            //         // Additional actions for failure
+            //     }
+            // }
                 
             }
         }
 
         stage('Run Integration Tests') {
-            when {
-                expression {
-                    BRANCH_NAME == 'feature'
-                }
-            }
 
             steps {
                 catchError(buildResult: 'FAILURE') {
@@ -104,57 +84,46 @@ pipeline {
                 }
             }
 
-            post {
-                success {
-                    echo 'All Test pass '
-                    echo 'You can procede to create pull request to merge into develop branch'
-                    // Additional actions for success
-                }
-                failure {
-                    echo 'Failed Integration test check it once '
-                    // Additional actions for failure
-                }
-            }
         } 
 
-        stage('checkout to develop branch'){
-            when {
-                expression {
-                    BRANCH_NAME == 'feature'
-                }
-            }
-            steps{
-                script{
-                checkout scmGit(branches: [[name: '*/develop']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-github', url: 'https://github.com/ShekharRedd/task_management.git']])
-                }
+//         stage('checkout to develop branch'){
+//             when {
+//                 expression {
+//                     BRANCH_NAME == 'feature'
+//                 }
+//             }
+//             steps{
+//                 script{
+//                 checkout scmGit(branches: [[name: '*/develop']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-github', url: 'https://github.com/ShekharRedd/task_management.git']])
+//                 }
 
-            }            
+//             }            
             
-        }
-        stage("Creating build image "){
-            when{
-                expression{
-                    BRANCH_NAME == 'develop' && currentBuild.changeSets.any { cs -> cs.branch == 'origin/develop'}
-                }
-            }
-            steps{
-                script{
-                    dir('/var/jenkins_home/workspace/'){
-                        sh 'git checkout develop '
-                        sh 'git pull origin develop'
-                        echo "======== Creating Docker image  ========"
-                        //     withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                        //     sh 'docker build -t ${image2}:${tag2} .'
-                        //     sh 'echo $USER'
-                        //     sh "echo $PASS | docker login -u $USER --password-stdin"
-                        //     sh "docker tag ${image2}:${tag2} $USER/${image2}:${tag2}"
-                        //     sh "docker push $USER/${image2}:${tag2}                    
-                        // }
-                    }
-                }
-        }
+//         }
+//         stage("Creating build image "){
+//             // when{
+//             //     expression{
+//             //         BRANCH_NAME == 'develop' && currentBuild.changeSets.any { cs -> cs.branch == 'origin/develop'}
+//             //     }
+//             // }
+//             steps{
+//                 script{
+//                     dir('/var/jenkins_home/workspace/'){
+//                         sh 'git checkout develop '
+//                         sh 'git pull origin develop'
+//                         echo "======== Creating Docker image  ========"
+//                         //     withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+//                         //     sh 'docker build -t ${image2}:${tag2} .'
+//                         //     sh 'echo $USER'
+//                         //     sh "echo $PASS | docker login -u $USER --password-stdin"
+//                         //     sh "docker tag ${image2}:${tag2} $USER/${image2}:${tag2}"
+//                         //     sh "docker push $USER/${image2}:${tag2}                    
+//                         // }
+//                     }
+//                 }
+//         }
 
-}
+// }
 }
 
 }
