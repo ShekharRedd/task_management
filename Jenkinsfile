@@ -9,7 +9,9 @@ pipeline{
         {
             steps
             {
-                echo "hello world "
+                
+                echo "af"
+                
                 // checkout scmGit(branches: [[name: '*/develop']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-github', url: 'https://github.com/ShekharRedd/task_management.git']])
             }
         }
