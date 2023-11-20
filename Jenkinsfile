@@ -5,13 +5,13 @@ pipeline {
         tag2 = "latest"
     }
     stages {
-        stage("checkout to feature branch"){
-            steps{
-                script{
-                     checkout scmGit(branches: [[name: '*/feature']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-github', url: 'https://github.com/ShekharRedd/task_management.git']])
-                }
-            }
-        }
+        // stage("checkout to feature branch"){
+        //     steps{
+        //         script{
+        //              checkout scmGit(branches: [[name: '*/feature']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-github', url: 'https://github.com/ShekharRedd/task_management.git']])
+        //         }
+        //     }
+        // }
         stage("install") {
             steps {
                 catchError(buildResult: 'UNSTABLE') {
