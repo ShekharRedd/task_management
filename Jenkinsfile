@@ -81,22 +81,45 @@ pipeline {
 
     post {
         success {
-            def buildLog = currentBuild.rawBuild.getLog().join('\n')
             script {
-                
-                emailext subject: 'Jenkins Pipeline Successful',
-                          body: "The Jenkins pipeline has completed successfully.\n\nBuild Log:\n${buildLog}",
-                // recipientProviders: [[$class: 'CulpritsRecipientProvider']],
-                        to: 'shekharreddy1010@gmail.com'
+                // Capture console logs
+                def logs = currentBuild.rawBuild.getLog(1000)
+
+                // Format the logs for better readability
+                def formattedLogs = """
+                    Jenkins Build Log
+
+                    Build Status: ${currentBuild.result ?: 'Unknown'}
+
+                    Console Output:
+                    ${logs}
+                """
+                // Send formatted logs via email
+                emailext subject: 'Jenkins Successfully execute , you can raise the pull request',
+                          body: formattedLogs,
+                          to: 'shekharreddy1010@gmail.com'
             }
-        }   
+        }
+
         failure {
-            def buildLog = currentBuild.rawBuild.getLog().join('\n')
             script {
-                emailext subject: 'Jenkins Pipeline Successful',
-                          body: "The Jenkins pipeline has completed successfully.\n\nBuild Log:\n${buildLog}",
-                // recipientProviders: [[$class: 'CulpritsRecipientProvider']],
-                to: 'shekharreddy1010@gmail.com'
+                // Capture console logs
+                def logs = currentBuild.rawBuild.getLog(1000)
+
+                // Format the logs for better readability
+                def formattedLogs = """
+                    Jenkins Build Log
+
+                    Build Status: ${currentBuild.result ?: 'Unknown'}
+
+                    Console Output:
+                    ${logs}
+                """
+
+                // Send formatted logs via email
+                emailext subject: 'Jenkins job failed , Please check the logs ',
+                          body: formattedLogs,
+                          to: 'shekharreddy1010@gmail.com'
             }
         }
     }
