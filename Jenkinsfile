@@ -87,7 +87,7 @@ pipeline {
 
                 // Format the logs for better readability
                 def formattedLogs = """
-                    Jenkins Build Log
+                    Jenkins Build Log includes 
 
                     Build Status: ${currentBuild.result ?: 'Unknown'}
 
