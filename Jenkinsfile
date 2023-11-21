@@ -122,7 +122,6 @@ pipeline {
                     Console Output:
                     ${logs}
                 """
-
                 // Send formatted logs via email
                 emailext subject: 'Jenkins Successfully execute , you can raise the pull request',
                           body: formattedLogs,

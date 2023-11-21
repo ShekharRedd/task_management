@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for , flash
 from datetime import datetime, timedelta
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
 
+app.config['SECRET_KEY'] = 'your_secret_key'
 # Sample in-memory database
 tasks = []
 
@@ -21,6 +22,7 @@ def add():
     if task and due_date_str:
         due_date = datetime.strptime(due_date_str, '%Y-%m-%d')
         tasks.append({'task': task, 'due_date': due_date})
+        flash('Task successfully added!', 'success')
 
     return redirect(url_for('index'))
 
