@@ -107,16 +107,47 @@ pipeline {
     //     }
     // }
 
-    post {
-        always {
-            
+        post {
+        success {
             script {
                 // Capture console logs
-                 // You can adjust the number to capture more or fewer lines
                 def logs = currentBuild.rawBuild.getLog(1000)
-                // Send console logs via email 
-                emailext subject: 'Jenkins Build Log',
-                          body: logs,
+
+                // Format the logs for better readability
+                def formattedLogs = """
+                    Jenkins Build Log
+
+                    Build Status: ${currentBuild.result ?: 'Unknown'}
+
+                    Console Output:
+                    ${logs}
+                """
+
+                // Send formatted logs via email
+                emailext subject: 'Jenkins Successfully execute , you can raise the pull request',
+                          body: formattedLogs,
+                          to: 'shekharreddy1010@gmail.com'
+            }
+        }
+
+        failure {
+            script {
+                // Capture console logs
+                def logs = currentBuild.rawBuild.getLog(1000)
+
+                // Format the logs for better readability
+                def formattedLogs = """
+                    Jenkins Build Log
+
+                    Build Status: ${currentBuild.result ?: 'Unknown'}
+
+                    Console Output:
+                    ${logs}
+                """
+
+                // Send formatted logs via email
+                emailext subject: 'Jenkins job failed , Please check the logs ',
+                          body: formattedLogs,
                           to: 'shekharreddy1010@gmail.com'
             }
         }
