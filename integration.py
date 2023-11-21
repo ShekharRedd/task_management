@@ -15,7 +15,7 @@ class TestIntegration(unittest.TestCase):
         self.app.post('/add', data=task_data, follow_redirects=True)
 
         # Simulate viewing tasks
-        response = self.app.get('/vw_tasks')
+        response = self.app.get('/view_tasks')
 
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Test Task', response.data)

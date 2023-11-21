@@ -9,13 +9,12 @@ pipeline{
         {
             steps
             {
-                echo "checkout develop"
-                echo "hello world"
+                echo "checkout out the feature branch"
                 // checkout scmGit(branches: [[name: '*/develop']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-github', url: 'https://github.com/ShekharRedd/task_management.git']])
 
             }
         }
-        stage("Build the images "){
+        stage("Build the image "){
             steps{
                 script{
                     dir('/var/jenkins_home/workspace/feature_branch')
@@ -27,7 +26,7 @@ pipeline{
                 //             withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                 //             sh "docker build -t ${image2}:${tag2} ."
                 //             sh 'echo $USER'
-                //             sh "echo $PASS | docker login -u $USER --password-stdin"
+                            // sh "echo $PASS | docker login -u $USER --password-stdin"
                 //             sh "docker tag ${image2}:${tag2} $USER/${image2}:${tag2}"
                 //             sh "docker push $USER/${image2}:${tag2}"
                 // }   

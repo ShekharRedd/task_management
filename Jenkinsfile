@@ -11,6 +11,7 @@ pipeline {
                     echo "welcome to feature branch"
                     echo "hello world feature branch"
                     echo "hi welocme"
+                    echo "welcome to feature branch"
                     //  checkout scmGit(branches: [[name: '*/feature']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-github', url: 'https://github.com/ShekharRedd/task_management.git']])
                 }
             }
@@ -79,25 +80,77 @@ pipeline {
         }
     }
 
-    post {
-        success {
-            def buildLog = currentBuild.rawBuild.getLog().join('\n')
-            script {
+    // post {
+    //     success {
+    //         // def buildLog = currentBuild.rawBuild.getLog().join('\n')
+    //         script {
                 
-                emailext subject: 'Jenkins Pipeline Successful',
-                          body: "The Jenkins pipeline has completed successfully.\n\nBuild Log:\n${buildLog}",
-                // recipientProviders: [[$class: 'CulpritsRecipientProvider']],
-                        to: 'shekharreddy1010@gmail.com'
-            }
-        }   
-        failure {
-            def buildLog = currentBuild.rawBuild.getLog().join('\n')
+    //             emailext subject: 'Jenkins Pipeline Successful',
+    //                       body: "The Jenkins pipeline has completed successfully.Build Log:",
+    //             // recipientProviders: [[$class: 'CulpritsRecipientProvider']],
+    //                     to: 'shekharreddy1010@gmail.com'
+    //                     mimeType: 'text/html'
+    //                     attachLog: true
+                        
+    //         }
+    //     }   
+    //     failure {
+    //         // def buildLog = currentBuild.rawBuild.getLog().join('\n')
+    //         script {
+    //             emailext subject: 'Jenkins Pipeline Successful',
+    //                       body: "The Jenkins pipeline has completed successfully.\n\nBuild Log:\n",
+    //             // recipientProviders: [[$class: 'CulpritsRecipientProvider']],
+    //             to: 'shekharreddy1010@gmail.com'
+    //             mimeType: 'text/html'
+    //             attachLog: true
+    //         }
+    //     }
+    // }
+
+        post {
+        success {
             script {
-                emailext subject: 'Jenkins Pipeline Successful',
-                          body: "The Jenkins pipeline has completed successfully.\n\nBuild Log:\n${buildLog}",
-                // recipientProviders: [[$class: 'CulpritsRecipientProvider']],
-                to: 'shekharreddy1010@gmail.com'
+                // Capture console logs
+                def logs = currentBuild.rawBuild.getLog(1000)
+
+                // Format the logs for better readability
+                def formattedLogs = """
+                    Jenkins Build Log
+
+                    Build Status: ${currentBuild.result ?: 'Unknown'}
+
+                    Console Output:
+                    ${logs}
+                """
+                // Send formatted logs via email
+                emailext subject: 'Jenkins Successfully execute , you can raise the pull request',
+                          body: formattedLogs,
+                          to: 'shekharreddy1010@gmail.com'
+            }
+        }
+
+        failure {
+            script {
+                // Capture console logs
+                def logs = currentBuild.rawBuild.getLog(1000)
+
+                // Format the logs for better readability
+                def formattedLogs = """
+                    Jenkins Build Log
+
+                    Build Status: ${currentBuild.result ?: 'Unknown'}
+
+                    Console Output:
+                    ${logs}
+                """
+
+                // Send formatted logs via email
+                emailext subject: 'Jenkins job failed , Please check the logs ',
+                          body: formattedLogs,
+                          to: 'shekharreddy1010@gmail.com'
             }
         }
     }
+
 }
+
