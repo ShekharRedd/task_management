@@ -10,7 +10,7 @@ pipeline {
                 script {
                     echo "welcome to feature branch"
                     
-                   checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-github', url: 'https://github.com/ShekharRedd/task_management']])
+                //    checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-github', url: 'https://github.com/ShekharRedd/task_management']])
                 }
             }
         }
