@@ -2,7 +2,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #ec1616;
     margin: 0;
     padding: 0;
 }
@@ -11,14 +11,14 @@ body {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: #ffffffb4;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-image: url("https://media.istockphoto.com/id/1095286208/photo/light-blue-paper-color-with-texture-for-background.jpg?b=1&s=612x612&w=0&k=20&c=eWPFSlCRZUamd2e_C9qbOXTqKVNww6q0Z4UnoXoJeVA=");
     background-size: cover;
 }
 
 h1 {
-    color: #333;
+    color: #c71c1c;
     text-align: center;
 }
 
@@ -43,7 +43,7 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #202327;
 }
 
 
@@ -54,7 +54,7 @@ button:hover {
 
 li a {
     text-decoration: none;
-    color: #333;
+    color: #cbbebe;
 }
 li {
     flex: 1; /* Make each list item flexible */
