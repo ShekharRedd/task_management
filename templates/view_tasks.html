@@ -11,19 +11,18 @@
         <h1>Tasks List</h1>
         <ol>
             {% for task in tasks %}
-                <li>
-                    {{ task.task }} - Due: {{ task.due_date.strftime('%Y-%m-%d') }}
-                    {% set remaining_time = task.due_date - now %}
-                    {% if remaining_time.days > 0 %}
-                        ({{ remaining_time.days }} days remaining)
-                    {% elif remaining_time.days == 0 %}
-                        (Today)
-                    {% else %}
-                                <!-- (Overdue by {{ -remaining_time.days }} days) -->
-                    {% endif %}
-                    <a href="{{ url_for('delete', task_id=loop.index-1) }}"><img width="20px" height="20px" src="https://cdn.pixabay.com/photo/2023/03/30/17/34/ai-generated-7888395_1280.png"/></a>
-                </li>
-            {% endfor %}
+            <li>
+                {{ task.task }} - Due: {{ task.due_date.strftime('%Y-%m-%d') }}
+                {% if task.remaining_time > 0 %}
+                    ({{ task.remaining_time }} days remaining)
+                {% elif task.remaining_time == 0 %}
+                    (Today)
+                {% else %}
+                    (Overdue by {{ -task.remaining_time }} days)
+                {% endif %}
+                <a href="{{ url_for('delete', task_id=task['id']) }}"><img width="20px" height="20px" src="https://cdn.pixabay.com/photo/2023/03/30/17/34/ai-generated-7888395_1280.png"/></a>
+            </li>
+        {% endfor %}    
         </ol>
         <a href="{{ url_for('index') }}"><button>Home</button></a>
 
