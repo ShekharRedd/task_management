@@ -1,7 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
+    <!-- ... rest of the head section ... -->
+    <!-- ... rest of the head section ... -->
 <link rel="stylesheet" href="{{ url_for('static', filename='view.css') }}">
 
 </head>
@@ -18,7 +20,7 @@
                     {% elif remaining_time.days == 0 %}
                         (Today)
                     {% else %}
-                                
+                                <!-- (Overdue by {{ -remaining_time.days }} days) -->
                     {% endif %}
                     <a href="{{ url_for('delete', task_id=loop.index-1) }}"><img width="20px" height="20px" src="https://cdn.pixabay.com/photo/2023/03/30/17/34/ai-generated-7888395_1280.png"/></a>
                 </li>
@@ -29,3 +31,4 @@
     </div>
 </body>
 </html>
+
