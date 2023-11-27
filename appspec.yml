@@ -3,7 +3,7 @@ Resources:
   - TargetService:
       Type: AWS::ECS::Service
       Properties:
-        TaskDefinition: "arn:aws:ecs:ap-south-1:862547479026:task-definition/TaskApp:13"
+        TaskDefinition: "arn:aws:ecs:ap-south-1:862547479026:task-definition/TaskApp:12"
         LoadBalancerInfo:
           ContainerName: "task"
           ContainerPort: 5004
