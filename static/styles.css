@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #e6e6e6; /* light gray background */
+    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
 }
@@ -30,7 +30,7 @@ ul {
 li {
     margin-bottom: 10px;
     padding: 10px;
-    background-color: #e91515; /* light gray background for list items */
+    background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
     display: flex;
@@ -38,7 +38,7 @@ li {
 }
 
 a {
-    color: #ff6666; /* red color for links */
+    color: red;
     margin-left: 0px;
     text-decoration: none;
 }
@@ -56,13 +56,13 @@ label {
 input {
     margin-bottom: 10px;
     padding: 8px;
-    border: 1px solid #7e2929;
+    border: 1px solid #ddd;
     border-radius: 3px;
 }
 
 button {
     padding: 10px;
-    background-color: #141515; /* blue color for buttons */
+    background-color: #007bff;
     color: #fff;
     border: none;
     border-radius: 6px;
@@ -72,9 +72,8 @@ button {
 }
 
 button:hover {
-    background-color: #0066cc; /* darker blue color on hover */
+    background-color: #0056b3;
 }
-
 .bodyContainer {
     background-image: url("https://img.freepik.com/premium-photo/abstract-curve-pattern-blue-white-background_49758-667.jpg");
     background-size: cover;

@@ -3,8 +3,7 @@
 <head>
     <!-- ... rest of the head section ... -->
     <!-- ... rest of the head section ... -->
-<link rel="stylesheet" href="{{ url_for('static', filename='view.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='view.css') }}">
 </head>
 <body class="viewtask">
     <div class="container">
@@ -13,19 +12,22 @@
             {% for task in tasks %}
             <li>
                 {{ task.task }} - Due: {{ task.due_date.strftime('%Y-%m-%d') }}
-                {% if task.remaining_time > 0 %}
-                    ({{ task.remaining_time }} days remaining)
-                {% elif task.remaining_time == 0 %}
-                    (Today)
+                {% if task.remaining_time is defined %}
+                    {% if task.remaining_time > 0 %}
+                        ({{ task.remaining_time }} days remaining)
+                    {% elif task.remaining_time == 0 %}
+                        (Today)
+                    {% else %}
+                        (Overdue by {{ -task.remaining_time }} days)
+                    {% endif %}
                 {% else %}
-                    (Overdue by {{ -task.remaining_time }} days)
+                    (Remaining time not available)
                 {% endif %}
                 <a href="{{ url_for('delete', task_id=task['id']) }}"><img width="20px" height="20px" src="https://cdn.pixabay.com/photo/2023/03/30/17/34/ai-generated-7888395_1280.png"/></a>
             </li>
-        {% endfor %}    
+            {% endfor %}    
         </ol>
         <a href="{{ url_for('index') }}"><button>Home</button></a>
-
     </div>
 </body>
 </html>
