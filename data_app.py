@@ -20,7 +20,7 @@ def get_database_connection():
         try:
             # Attempt to connect to the database
             conn = mysql.connector.connect(
-                host='mysql',
+                host='localhost',
                 user='shekhar1',
                 password='shekhar@143',
                 database='sample_user',

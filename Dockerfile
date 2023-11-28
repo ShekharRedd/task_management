@@ -12,6 +12,7 @@ RUN pip install -r requirements.txt
 # Copy the application files
 COPY ./templates/ ./templates/
 COPY ./static/ ./static/
-COPY ./app.py .
+# COPY ./app.py .
+COPY ./data_app.py .
 
-CMD ["python", "app.py"]
+CMD ["python", "data_app.py"]

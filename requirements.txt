@@ -14,3 +14,4 @@ python-dotenv==1.0.0
 werkzeug==3.0.0
 zipp==3.17.0
 retrying
+flask_sqlalchemy

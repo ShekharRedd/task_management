@@ -107,7 +107,7 @@ pipeline {
                     ${logs}
                 """
                 // Send formatted logs via email
-                emailext subject: 'Jenkins job failed , Please check the logs ',
+                emailext subject: 'Jenkins job failed , Please check the logs and review the code once ',
                           body: formattedLogs,
                           to: 'shekharreddy1010@gmail.com'
             }
