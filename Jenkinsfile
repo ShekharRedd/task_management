@@ -74,19 +74,15 @@ pipeline {
                 }
             }
         }
-          stage('SonarQube Analysis') {
-              steps{
-                  script{
-def scannerHome = tool 'SonarScanner';
           
-withSonarQubeEnv() {
-  sh "${scannerHome}/bin/sonar-scanner -X"
-}
-                  }
-              }
-  }
-
+  //             stage('SonarQube Analysis') {
+  //   def scannerHome = tool 'SonarScanner';
+  //   withSonarQubeEnv() {
+  //     sh "${scannerHome}/bin/sonar-scanner"
+  //   }
+  // }
     }
+    
     //     post {
     //     success {
     //         script {
