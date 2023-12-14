@@ -17,6 +17,7 @@ pipeline {
                 catchError(buildResult: 'UNSTABLE') {
                     script {
                         sh 'python3 -m venv venv'
+                        sh "ls"
                         def venvPath = "${env.WORKSPACE}/venv/bin"
                         def pythonCommand = "${venvPath}/python"
                         def pipCommand = "${venvPath}/pip"
@@ -86,44 +87,44 @@ withSonarQubeEnv() {
   }
 
     }
-        post {
-        success {
-            script {
-                // Capture console logs
-                def logs = currentBuild.rawBuild.getLog(1000)
+    //     post {
+    //     success {
+    //         script {
+    //             // Capture console logs
+    //             def logs = currentBuild.rawBuild.getLog(1000)
 
-                // Format the logs for better readability
-                def formattedLogs = """
-                    Jenkins Build Log
+    //             // Format the logs for better readability
+    //             def formattedLogs = """
+    //                 Jenkins Build Log
 
-                    Build Status: ${currentBuild.result ?: 'Unknown'}
+    //                 Build Status: ${currentBuild.result ?: 'Unknown'}
 
-                    Console Output:
-                    ${logs}
-                """
-                // Send formatted logs via email
-                emailext subject: 'Jenkins Successfully execute , you can raise the pull request',
-                          body: formattedLogs,
-                          to: 'shekharreddy1010@gmail.com'
-            }
-        }
-        failure {
-            script {
-                // Capture console logs
-                def logs = currentBuild.rawBuild.getLog(1000)
-                // Format the logs for better readability
-                def formattedLogs = """
-                    Jenkins Build Log
-                    Build Status: ${currentBuild.result ?: 'Unknown'}
-                    Console Output:
-                    ${logs}
-                """
-                // Send formatted logs via email
-                emailext subject: 'Jenkins job failed , Please check the logs and review the code once ',
-                          body: formattedLogs,
-                          to: 'shekharreddy1010@gmail.com'
-            }
-        }
-    }
+    //                 Console Output:
+    //                 ${logs}
+    //             """
+    //             // Send formatted logs via email
+    //             emailext subject: 'Jenkins Successfully execute , you can raise the pull request',
+    //                       body: formattedLogs,
+    //                       to: 'shekharreddy1010@gmail.com'
+    //         }
+    //     }
+    //     failure {
+    //         script {
+    //             // Capture console logs
+    //             def logs = currentBuild.rawBuild.getLog(1000)
+    //             // Format the logs for better readability
+    //             def formattedLogs = """
+    //                 Jenkins Build Log
+    //                 Build Status: ${currentBuild.result ?: 'Unknown'}
+    //                 Console Output:
+    //                 ${logs}
+    //             """
+    //             // Send formatted logs via email
+    //             emailext subject: 'Jenkins job failed , Please check the logs and review the code once ',
+    //                       body: formattedLogs,
+    //                       to: 'shekharreddy1010@gmail.com'
+    //         }
+    //     }
+    // }
 }
 
