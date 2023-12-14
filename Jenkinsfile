@@ -80,7 +80,7 @@ pipeline {
                       script{
     def scannerHome = tool 'sonarqube';
     withSonarQubeEnv() {
-      sh "${scannerHome}/bin/sonar-scanner -X"
+      sh "${scannerHome}/bin/sonar-scanner -Dsonar.sources=app.py,sam.py,data_app.py,integration.py,unit.py"
     }
                   }
                   }
