@@ -39,9 +39,9 @@ pipeline {
                     script {
                         def venvPath = "${env.WORKSPACE}/venv/bin"
                         def activateScript = "${venvPath}/activate"
-                        def pythonCommand = "${venvPath}/python"
+                        // def pythonCommand = "${venvPath}/python"
                         def pipCommand = "${venvPath}/coverage"
-                        def pytests= "${venvPath}/pytest"
+                        def pytest= "${venvPath}/pytest"
 
                         // Activate the virtual environment
                         sh ". ${activateScript}"
@@ -50,7 +50,7 @@ pipeline {
                         dir(env.WORKSPACE) {
                             // Run unit.py script
                             // sh "${pythonCommand} unit.py"
-                            sh "${pipCommand} run -m ${pytests} unit.py"
+                            sh "${pipCommand} run -m pytest unit.py"
                             sh "${pipCommand} report -m"
                             sh "${pipCommand} xml"
                         }
@@ -67,7 +67,7 @@ pipeline {
                         def activateScript = "${venvPath}/activate"
                         def pythonCommand = "${venvPath}/python"
                         def pipCommand = "${venvPath}/coverage"
-                        def pytests= "${venvPath}/pytest"
+                        def pytest= "${venvPath}/pytest"
 
                         // Activate the virtual environment
                         sh ". ${activateScript}"
@@ -76,7 +76,7 @@ pipeline {
                         dir(env.WORKSPACE) {
                             // Run integration.py script
                             // sh "${pythonCommand} integration.py"
-                            sh "${pipCommand} run -m ${pytests} integration.py"
+                            sh "${pipCommand} run -m pytest integration.py"
                             sh "${pipCommand} report -m"
                             sh "${pipCommand} xml"
                         }
