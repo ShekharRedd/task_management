@@ -2,7 +2,8 @@
 configparser==6.0.0
 flask==3.0.0
 Flask-Cors==4.0.0
-
+coverage
+pytest
 mysql-connector-python==8.1.0
 
 
