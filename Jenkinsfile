@@ -40,6 +40,8 @@ pipeline {
                         def venvPath = "${env.WORKSPACE}/venv/bin"
                         def activateScript = "${venvPath}/activate"
                         def pythonCommand = "${venvPath}/python"
+                        def pipCommand = "${venvPath}/coverage"
+                        def pytests= "${venvPath}/pytest"
 
                         // Activate the virtual environment
                         sh ". ${activateScript}"
@@ -48,9 +50,9 @@ pipeline {
                         dir(env.WORKSPACE) {
                             // Run unit.py script
                             // sh "${pythonCommand} unit.py"
-                            sh "coverage run -m pytest unit.py"
-                            sh "coverage report -m"
-                            sh "coverage xml"
+                            sh "${pipCommand} run -m ${pytests} unit.py"
+                            sh "${pipCommand} report -m"
+                            sh "${pipCommand} xml"
                         }
                     }
                 }
@@ -64,6 +66,8 @@ pipeline {
                         def venvPath = "${env.WORKSPACE}/venv/bin"
                         def activateScript = "${venvPath}/activate"
                         def pythonCommand = "${venvPath}/python"
+                        def pipCommand = "${venvPath}/coverage"
+                        def pytests= "${venvPath}/pytest"
 
                         // Activate the virtual environment
                         sh ". ${activateScript}"
@@ -72,8 +76,9 @@ pipeline {
                         dir(env.WORKSPACE) {
                             // Run integration.py script
                             // sh "${pythonCommand} integration.py"
-                            sh "coverage run -m pytest integration.py"
-                            sh "coverage xml"
+                            sh "${pipCommand} run -m ${pytests} integration.py"
+                            sh "${pipCommand} report -m"
+                            sh "${pipCommand} xml"
                         }
                     }
                 }
@@ -85,7 +90,7 @@ pipeline {
                       script{
     def scannerHome = tool 'sonarqube';
     withSonarQubeEnv() {
-      sh "${scannerHome}/bin/sonar-scanner -X"
+      sh "${scannerHome}/bin/sonar-scanner  -Dsonar.sources=app.py,integration.py,unit.py"
     }
                   }
                   }
