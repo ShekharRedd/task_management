@@ -90,7 +90,7 @@ pipeline {
                       script{
     def scannerHome = tool 'sonarqube';
     withSonarQubeEnv() {
-      sh "${scannerHome}/bin/sonar-scanner  -Dsonar.sources=unit.py"
+            sh "${scannerHome}/bin/sonar-scanner  -Dsonar.sources=unit.py,integration.py"
     }
                   }
                   }
