@@ -47,7 +47,10 @@ pipeline {
                         // Change to the workspace directory
                         dir(env.WORKSPACE) {
                             // Run unit.py script
-                            sh "${pythonCommand} unit.py"
+                            // sh "${pythonCommand} unit.py"
+                            sh "coverage run -m pytest unit.py"
+                            sh "coverage report -m"
+                            sh "coverage xml"
                         }
                     }
                 }
@@ -68,7 +71,9 @@ pipeline {
                         // Change to the workspace directory
                         dir(env.WORKSPACE) {
                             // Run integration.py script
-                            sh "${pythonCommand} integration.py"
+                            // sh "${pythonCommand} integration.py"
+                            sh "coverage run -m pytest integration.py"
+                            sh "coverage xml"
                         }
                     }
                 }
@@ -80,7 +85,7 @@ pipeline {
                       script{
     def scannerHome = tool 'sonarqube';
     withSonarQubeEnv() {
-      sh "${scannerHome}/bin/sonar-scanner -Dsonar.sources=app.py,data_app.py,integration.py,unit.py"
+      sh "${scannerHome}/bin/sonar-scanner -X"
     }
                   }
                   }
