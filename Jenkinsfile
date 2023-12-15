@@ -59,7 +59,7 @@ pipeline {
                                 sh "${pipCommand} run -m pytest integration.py"
                                 sh "${pipCommand} xml -o integration_coverage.xml"
                             // Combine XML reports
-                                sh "${pipCommand} combine -a unit_coverage.xml -b integration_coverage.xml -o combined_coverage.xml"
+                                sh "${pipCommand} combine combine unit_coverage.xml integration_coverage.xml -o combined_coverage.xml"
 
                         }
                     }
