@@ -50,9 +50,17 @@ pipeline {
                         dir(env.WORKSPACE) {
                             // Run unit.py script
                             // sh "${pythonCommand} unit.py"
-                            sh "${pipCommand} run -m pytest unit.py"
-                            sh "${pipCommand} report -m"
-                            sh "${pipCommand} xml"
+                            // sh "${pipCommand} run -m pytest unit.py"
+                            // sh "${pipCommand} report -m"
+                            // sh "${pipCommand} xml"
+                                sh "${pipCommand} run -m pytest unit.py"
+                                sh "${pipCommand} xml -o unit_coverage.xml"
+                                
+                                sh "${pipCommand} run -m pytest integration.py"
+                                sh "${pipCommand} xml -o integration_coverage.xml"
+                            // Combine XML reports
+                                sh "${pipCommand} combine -a unit_coverage.xml -b integration_coverage.xml -o combined_coverage.xml"
+
                         }
                     }
                 }
@@ -85,17 +93,28 @@ pipeline {
         //     }
         // }
           
-              stage('SonarQube Analysis') {
-                  steps{
-                      script{
-    def scannerHome = tool 'sonarqube';
-    withSonarQubeEnv() {
-            sh "${scannerHome}/bin/sonar-scanner  -Dsonar.sources=unit.py,integration.py"
+  //             stage('SonarQube Analysis') {
+  //                 steps{
+  //                     script{
+  //   def scannerHome = tool 'sonarqube';
+  //   withSonarQubeEnv() {
+  //           sh "${scannerHome}/bin/sonar-scanner  -Dsonar.sources=unit.py,integration.py"
+  //   }
+  //                 }
+  //                 }
+  // }
+  //   }
+        stage('SonarQube Analysis') {
+    steps {
+        script {
+            def scannerHome = tool 'sonarqube'
+            withSonarQubeEnv() {
+                sh "${scannerHome}/bin/sonar-scanner -Dsonar.sources=unit.py,integration.py -Dsonar.coverageReportPaths=combined_coverage.xml"
+            }
+        }
     }
-                  }
-                  }
-  }
-    }
+}
+
     
     //     post {
     //     success {
