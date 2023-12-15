@@ -59,7 +59,7 @@ pipeline {
             }
         }
 
-        stage('Run Integration Tests') {
+        // stage('Run Integration Tests') {
         //     steps {
         //         catchError(buildResult: 'FAILURE') {
         //             script {
