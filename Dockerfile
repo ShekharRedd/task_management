@@ -1,18 +1,17 @@
-FROM python:3.9
+FROM python:latest
 
-RUN mkdir /home/python
+RUN mkdir /home/python 
 
-WORKDIR /home/python/
+WORKDIR /home/python
+COPY ./static ./static
 
-COPY ./requirements.txt .
+COPY ./templates ./templates 
 
-# Install dependencies
-RUN pip install -r requirements.txt
+COPY ./app.py ./app.py 
 
-# Copy the application files
-COPY ./templates/ ./templates/
-COPY ./static/ ./static/
-# COPY ./app.py .
-COPY ./data_app.py .
+COPY ./requirements.txt ./requirements.txt 
 
-CMD ["python", "data_app.py"]
+
+RUN pip install -r /home/python/requirements.txt 
+
+CMD [ "python","app.py" ]
