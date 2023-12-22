@@ -17,6 +17,7 @@ pipeline {
                 catchError(buildResult: 'UNSTABLE') {
                     script {
                         sh 'python3 -m venv venv'
+                        sh "ls"
                         def venvPath = "${env.WORKSPACE}/venv/bin"
                         def pythonCommand = "${venvPath}/python"
                         def pipCommand = "${venvPath}/pip"
@@ -38,7 +39,9 @@ pipeline {
                     script {
                         def venvPath = "${env.WORKSPACE}/venv/bin"
                         def activateScript = "${venvPath}/activate"
-                        def pythonCommand = "${venvPath}/python"
+                        // def pythonCommand = "${venvPath}/python"
+                        def pipCommand = "${venvPath}/coverage"
+                        def pytest= "${venvPath}/pytest"
 
                         // Activate the virtual environment
                         sh ". ${activateScript}"
@@ -46,72 +49,113 @@ pipeline {
                         // Change to the workspace directory
                         dir(env.WORKSPACE) {
                             // Run unit.py script
-                            sh "${pythonCommand} unit.py"
+                            // sh "${pythonCommand} unit.py"
+                            // sh "${pipCommand} run -m pytest unit.py"
+                            // sh "${pipCommand} report -m"
+                            // sh "${pipCommand} xml"
+                                sh "${pipCommand} run -m pytest unit.py"
+                                sh "${pipCommand} xml -o unit_coverage.xml"
+                                
+                                sh "${pipCommand} run -m pytest integration.py"
+                                sh "${pipCommand} xml -o integration_coverage.xml"
+                            // Combine XML reports
+                                sh "${pipCommand} combine combine unit_coverage.xml integration_coverage.xml -o combined_coverage.xml"
+
                         }
                     }
                 }
             }
         }
+        
 
-        stage('Run Integration Tests') {
-            steps {
-                catchError(buildResult: 'FAILURE') {
-                    script {
-                        def venvPath = "${env.WORKSPACE}/venv/bin"
-                        def activateScript = "${venvPath}/activate"
-                        def pythonCommand = "${venvPath}/python"
+        // stage('Run Integration Tests') {
+        //     steps {
+        //         catchError(buildResult: 'FAILURE') {
+        //             script {
+        //                 def venvPath = "${env.WORKSPACE}/venv/bin"
+        //                 def activateScript = "${venvPath}/activate"
+        //                 def pythonCommand = "${venvPath}/python"
+        //                 def pipCommand = "${venvPath}/coverage"
+        //                 def pytest= "${venvPath}/pytest"
 
-                        // Activate the virtual environment
-                        sh ". ${activateScript}"
+        //                 // Activate the virtual environment
+        //                 sh ". ${activateScript}"
 
-                        // Change to the workspace directory
-                        dir(env.WORKSPACE) {
-                            // Run integration.py script
-                            sh "${pythonCommand} integration.py"
-                        }
-                    }
-                }
+        //                 // Change to the workspace directory
+        //                 dir(env.WORKSPACE) {
+        //                     // Run integration.py script
+        //                     // sh "${pythonCommand} integration.py"
+        //                     sh "${pipCommand} run -m pytest integration.py"
+        //                     sh "${pipCommand} report -m"
+        //                     sh "${pipCommand} xml"
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+          
+  //             stage('SonarQube Analysis') {
+  //                 steps{
+  //                     script{
+  //   def scannerHome = tool 'sonarqube';
+  //   withSonarQubeEnv() {
+  //           sh "${scannerHome}/bin/sonar-scanner  -Dsonar.sources=unit.py,integration.py"
+  //   }
+  //                 }
+  //                 }
+  // }
+  //   }
+        stage('SonarQube Analysis') {
+    steps {
+        script {
+            def scannerHome = tool 'sonarqube'
+            withSonarQubeEnv() {
+                sh "${scannerHome}/bin/sonar-scanner -Dsonar.sources=unit.py,integration.py -Dsonar.coverageReportPaths=combined_coverage.xml"
             }
         }
     }
-        post {
-        success {
-            script {
-                // Capture console logs
-                def logs = currentBuild.rawBuild.getLog(1000)
-
-                // Format the logs for better readability
-                def formattedLogs = """
-                    Jenkins Build Log
-
-                    Build Status: ${currentBuild.result ?: 'Unknown'}
-
-                    Console Output:
-                    ${logs}
-                """
-                // Send formatted logs via email
-                emailext subject: 'Jenkins Successfully execute , you can raise the pull request',
-                          body: formattedLogs,
-                          to: 'shekharreddy1010@gmail.com'
-            }
-        }
-        failure {
-            script {
-                // Capture console logs
-                def logs = currentBuild.rawBuild.getLog(1000)
-                // Format the logs for better readability
-                def formattedLogs = """
-                    Jenkins Build Log
-                    Build Status: ${currentBuild.result ?: 'Unknown'}
-                    Console Output:
-                    ${logs}
-                """
-                // Send formatted logs via email
-                emailext subject: 'Jenkins job failed , Please check the logs and review the code once ',
-                          body: formattedLogs,
-                          to: 'shekharreddy1010@gmail.com'
-            }
-        }
+}
     }
+
+    
+    //     post {
+    //     success {
+    //         script {
+    //             // Capture console logs
+    //             def logs = currentBuild.rawBuild.getLog(1000)
+
+    //             // Format the logs for better readability
+    //             def formattedLogs = """
+    //                 Jenkins Build Log
+
+    //                 Build Status: ${currentBuild.result ?: 'Unknown'}
+
+    //                 Console Output:
+    //                 ${logs}
+    //             """
+    //             // Send formatted logs via email
+    //             emailext subject: 'Jenkins Successfully execute , you can raise the pull request',
+    //                       body: formattedLogs,
+    //                       to: 'shekharreddy1010@gmail.com'
+    //         }
+    //     }
+    //     failure {
+    //         script {
+    //             // Capture console logs
+    //             def logs = currentBuild.rawBuild.getLog(1000)
+    //             // Format the logs for better readability
+    //             def formattedLogs = """
+    //                 Jenkins Build Log
+    //                 Build Status: ${currentBuild.result ?: 'Unknown'}
+    //                 Console Output:
+    //                 ${logs}
+    //             """
+    //             // Send formatted logs via email
+    //             emailext subject: 'Jenkins job failed , Please check the logs and review the code once ',
+    //                       body: formattedLogs,
+    //                       to: 'shekharreddy1010@gmail.com'
+    //         }
+    //     }
+    // }
 }
 

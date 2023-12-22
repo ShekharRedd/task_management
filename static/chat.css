@@ -29,17 +29,5 @@ h1 {
     margin-bottom: 10px;
 }
 
-/* Adjust the bar heights as needed */
-.bar:nth-child(1) {
-    height: 70%;
-}
-
-.bar:nth-child(2) {
-    height: 50%;
-}
-
-.bar:nth-child(3) {
-    height: 80%;
-}
 
 /* Add more styles or bars as needed */
