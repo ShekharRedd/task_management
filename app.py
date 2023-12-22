@@ -27,7 +27,6 @@ def add():
     now = datetime.now()
     return render_template('view_tasks.html', tasks=tasks, now=now)
 
-
 @app.route('/delete/<int:task_id>')
 def delete(task_id):
     if 0 <= task_id < len(tasks):
@@ -41,7 +40,11 @@ def view_tasks():
     now = datetime.now()
     return render_template('view_tasks.html', tasks=tasks, now=now)
 
-if __name__ == '__main__':
+@app.route('/chat')
+def chat():
+    return render_template('chat.html')
+
+if __name__ == '__main__': # pragma: no cover
     app.run(port=5004,host='0.0.0.0')
 
 

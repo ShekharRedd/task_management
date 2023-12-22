@@ -5,13 +5,8 @@ import mysql.connector
 from mysql.connector import errorcode
 import time
 
-app = Flask(__name__)
-CORS(app)
-
-app.config['SECRET_KEY'] = 'your_secret_key'
-
 import time
-
+import os
 def get_database_connection():
     max_retries = 5
     retries = 0
@@ -20,7 +15,7 @@ def get_database_connection():
         try:
             # Attempt to connect to the database
             conn = mysql.connector.connect(
-                host='localhost',
+                host="localhost",
                 user='shekhar1',
                 password='shekhar@143',
                 database='sample_user',
@@ -46,21 +41,28 @@ def get_database_connection():
                 conn.commit()
 
             return conn, cursor
+
         except mysql.connector.Error as err:
             if err.errno == mysql.connector.errorcode.CR_SERVER_LOST or err.errno == mysql.connector.errorcode.CR_CONN_HOST_ERROR:
                 # Handle server connection errors by retrying
-                print("Retrying database connection...")
-                time.sleep(10)  # Wait for 2 seconds before retrying
+                print(f"Retrying database connection... (Attempt {retries + 1}/{max_retries})")
+                time.sleep(10)  # Wait for 5 minutes before retrying
                 retries += 1
             else:
                 # Handle other errors
                 raise
-    else:
-        print("Max retries reached. Unable to connect to the database.")
-        raise SystemExit
+
+    print("Max retries reached. Unable to connect to the database.")
+    raise SystemExit
 
 
 conn, cursor = get_database_connection()
+
+app = Flask(__name__)
+CORS(app)
+
+app.config['SECRET_KEY'] = 'your_secret_key'
+
 
 @app.route('/')
 def index():
