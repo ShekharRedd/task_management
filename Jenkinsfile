@@ -16,9 +16,9 @@ pipeline {
             steps {
                 catchError(buildResult: 'UNSTABLE') {
                     script {
-                        sh 'apt update -y'
-                        sh "apt install python3 -y"
-                        sh "apt install python3.11-venv -y"
+                        // sh 'sudo apt update -y'
+                        // sh "sudo apt install python3 -y"
+                        // sh "apt install python3.11-venv -y"
                         sh 'python3 -m venv venv'
                         sh "ls"
                         def venvPath = "${env.WORKSPACE}/venv/bin"
