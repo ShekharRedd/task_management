@@ -79,7 +79,7 @@ pipeline {
             dir('/var/jenkins_home/workspace/sam'){
             def scannerHome = tool 'sonarqube'
             withSonarQubeEnv() {
-                sh "${scannerHome}/bin/sonar-scanner -Dsonar.sources=app.py,unit.py,integration.py -Dsonar.coverageReportPaths=shekhar.xml"
+                sh "${scannerHome}/bin/sonar-scanner -Dsonar.sources=app.py,unit.py,integration.py"
             }
             }
         }
