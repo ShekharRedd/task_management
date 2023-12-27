@@ -16,9 +16,9 @@ pipeline {
             steps {
                 catchError(buildResult: 'UNSTABLE') {
                     script {
-                        sh 'apt update -y'
-                        sh "apt install python3 -y"
-                        sh "apt install python3.11-venv -y"
+                        // sh 'apt update -y'
+                        // sh "apt install python3 -y"
+                        // sh "apt install python3.11-venv -y"
                         sh 'python3 -m venv venv'
                         sh "ls"
                         def venvPath = "${env.WORKSPACE}/venv/bin"
@@ -73,9 +73,11 @@ pipeline {
         stage('SonarQube Analysis') {
     steps {
         script {
+            dir('/var/jenkins_home/workspace/sam/'){
             def scannerHome = tool 'sonarqube'
             withSonarQubeEnv() {
                 sh "${scannerHome}/bin/sonar-scanner -Dsonar.sources=app.py,unit.py,integration.py -Dsonar.coverageReportPaths=merged_report.xml"
+            }
             }
         }
     }
