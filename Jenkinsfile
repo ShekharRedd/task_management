@@ -38,7 +38,6 @@ pipeline {
         stage('Run Unit Tests') {
             steps {
             catchError(buildResult: 'FAILURE') {
-                
                     script {
                         def venvPath = "${env.WORKSPACE}/venv/bin"
                         def activateScript = "${venvPath}/activate"
@@ -56,15 +55,19 @@ pipeline {
                             // sh "${pipCommand} run -m pytest unit.py"
                             // sh "${pipCommand} report -m"
                             // sh "${pipCommand} xml"
-                                sh "${pipCommand} run unit.py"
+                                // sh "${pipCommand} run unit.py"
                                 // sh "${pipCommand} xml -o unit_coverage.xml"
                                 
-                                sh "${pipCommand} run -a integration.py"
+                                // sh "${pipCommand} run -a integration.py"
                                 // sh "${pipCommand} xml -o integration_coverage.xml"
                             // Combine XML reports
-                                sh "${pipCommand} report -m"
-                                sh "${pipCommand} xml -o merger_report.xml"
+                                // sh "${pipCommand} report -m"
+                                // sh "${pipCommand} xml -o merger_report.xml"
 
+                                sh "${pipCommand} run unit.py"
+                                sh "${pipCommand} run -a integration.py"
+                                sh "${pipCommand} report -m"
+                                sh "${pipCommand} xml -o shekhar.xml"
                         }
                     }
                 }
@@ -73,10 +76,10 @@ pipeline {
         stage('SonarQube Analysis') {
     steps {
         script {
-            dir('/var/jenkins_home/workspace/sam/'){
+            dir('/var/jenkins_home/workspace/sam'){
             def scannerHome = tool 'sonarqube'
             withSonarQubeEnv() {
-                sh "${scannerHome}/bin/sonar-scanner -Dsonar.sources=app.py,unit.py,integration.py -Dsonar.coverageReportPaths=merged_report.xml"
+                sh "${scannerHome}/bin/sonar-scanner -Dsonar.sources=app.py,unit.py,integration.py -Dsonar.coverageReportPaths=shekhar.xml"
             }
             }
         }
