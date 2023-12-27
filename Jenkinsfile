@@ -16,6 +16,9 @@ pipeline {
             steps {
                 catchError(buildResult: 'UNSTABLE') {
                     script {
+                        sh 'apt update -y'
+                        sh "apt install python3 -y"
+                        sh "apt install python3.11-venv -y"
                         sh 'python3 -m venv venv'
                         sh "ls"
                         def venvPath = "${env.WORKSPACE}/venv/bin"
@@ -67,45 +70,6 @@ pipeline {
                 }
             }
         }
-        
-
-        // stage('Run Integration Tests') {
-        //     steps {
-        //         catchError(buildResult: 'FAILURE') {
-        //             script {
-        //                 def venvPath = "${env.WORKSPACE}/venv/bin"
-        //                 def activateScript = "${venvPath}/activate"
-        //                 def pythonCommand = "${venvPath}/python"
-        //                 def pipCommand = "${venvPath}/coverage"
-        //                 def pytest= "${venvPath}/pytest"
-
-        //                 // Activate the virtual environment
-        //                 sh ". ${activateScript}"
-
-        //                 // Change to the workspace directory
-        //                 dir(env.WORKSPACE) {
-        //                     // Run integration.py script
-        //                     // sh "${pythonCommand} integration.py"
-        //                     sh "${pipCommand} run -m pytest integration.py"
-        //                     sh "${pipCommand} report -m"
-        //                     sh "${pipCommand} xml"
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-          
-  //             stage('SonarQube Analysis') {
-  //                 steps{
-  //                     script{
-  //   def scannerHome = tool 'sonarqube';
-  //   withSonarQubeEnv() {
-  //           sh "${scannerHome}/bin/sonar-scanner  -Dsonar.sources=unit.py,integration.py"
-  //   }
-  //                 }
-  //                 }
-  // }
-  //   }
         stage('SonarQube Analysis') {
     steps {
         script {
@@ -117,6 +81,8 @@ pipeline {
     }
 }
     }
+
+} // if you want post block then place this cursur into last of the line
 
     
     //     post {
@@ -158,5 +124,5 @@ pipeline {
     //         }
     //     }
     // }
-}
+
 
