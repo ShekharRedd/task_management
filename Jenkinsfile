@@ -53,13 +53,14 @@ pipeline {
                             // sh "${pipCommand} run -m pytest unit.py"
                             // sh "${pipCommand} report -m"
                             // sh "${pipCommand} xml"
-                                sh "${pipCommand} run -m pytest unit.py"
-                                sh "${pipCommand} xml -o unit_coverage.xml"
+                                sh "${pipCommand} run unit.py"
+                                // sh "${pipCommand} xml -o unit_coverage.xml"
                                 
-                                sh "${pipCommand} run -m pytest integration.py"
-                                sh "${pipCommand} xml -o integration_coverage.xml"
+                                sh "${pipCommand} run -a integration.py"
+                                // sh "${pipCommand} xml -o integration_coverage.xml"
                             // Combine XML reports
-                                sh "${pipCommand} combine combine unit_coverage.xml integration_coverage.xml -o combined_coverage.xml"
+                                sh "${pipCommand} report -m"
+                                sh "${pipCommand} xml -o merger_report.xml"
 
                         }
                     }
@@ -110,7 +111,7 @@ pipeline {
         script {
             def scannerHome = tool 'sonarqube'
             withSonarQubeEnv() {
-                sh "${scannerHome}/bin/sonar-scanner -Dsonar.sources=unit.py,integration.py -Dsonar.coverageReportPaths=combined_coverage.xml"
+                sh "${scannerHome}/bin/sonar-scanner -Dsonar.sources=app.py,unit.py,integration.py -Dsonar.coverageReportPaths=merged_report.xml"
             }
         }
     }
