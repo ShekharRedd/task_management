@@ -78,7 +78,7 @@ pipeline {
         stage('SonarQube Analysis') {
     steps {
         script {
-            dir('/var/jenkins_home/workspace/sam'){
+            dir('/var/jenkins_home/workspace/sample-sonar'){
             def scannerHome = tool 'sonarqube'
             withSonarQubeEnv() {
                 sh "${scannerHome}/bin/sonar-scanner -Dsonar.sources=app.py,unit.py,integration.py -Dsonar.coverageReportPaths=coverage.xml"
