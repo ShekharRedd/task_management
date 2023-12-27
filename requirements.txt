@@ -13,5 +13,5 @@ werkzeug==3.0.0
 zipp==3.17.0
 retrying
 flask_sqlalchemy
-coverage==7.3.2
-pytest
+coverage==7.3.3
+pytest==7.4.3
