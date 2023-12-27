@@ -8,7 +8,7 @@ pipeline {
         stage("checkout to feature branch") {
             steps {
                 script {
-                     checkout scmGit(branches: [[name: '*/feature']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-github', url: 'https://github.com/ShekharRedd/task_management.git']])
+                     checkout scmGit(branches: [[name: '*/sonarqube']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-github', url: 'https://github.com/ShekharRedd/task_management.git']])
                 }
             }
         }
