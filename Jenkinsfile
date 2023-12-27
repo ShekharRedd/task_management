@@ -66,7 +66,7 @@ pipeline {
 
                             sh "${pipCommand} run -m pytest unit.py"
                             sh "${pipCommand} report -m"
-                            sh "${pipCommand} xml"
+                            sh "${pipCommand} xml -o coverage.xml"
                                 // sh "${pipCommand} run -a integration.py"
                                 // sh "${pipCommand} report -m"
                                 // sh "${pipCommand} xml -o shekhar.xml"
