@@ -64,10 +64,12 @@ pipeline {
                                 // sh "${pipCommand} report -m"
                                 // sh "${pipCommand} xml -o merger_report.xml"
 
-                                sh "${pipCommand} run unit.py"
-                                sh "${pipCommand} run -a integration.py"
-                                sh "${pipCommand} report -m"
-                                sh "${pipCommand} xml -o shekhar.xml"
+                            sh "${pipCommand} run -m pytest unit.py"
+                            sh "${pipCommand} report -m"
+                            sh "${pipCommand} xml"
+                                // sh "${pipCommand} run -a integration.py"
+                                // sh "${pipCommand} report -m"
+                                // sh "${pipCommand} xml -o shekhar.xml"
                         }
                     }
                 }
@@ -79,7 +81,7 @@ pipeline {
             dir('/var/jenkins_home/workspace/sam'){
             def scannerHome = tool 'sonarqube'
             withSonarQubeEnv() {
-                sh "${scannerHome}/bin/sonar-scanner -Dsonar.sources=app.py,unit.py,integration.py"
+                sh "${scannerHome}/bin/sonar-scanner -Dsonar.sources=app.py,unit.py,integration.py -Dsonar.coverageReportPaths=coverage.xml"
             }
             }
         }
