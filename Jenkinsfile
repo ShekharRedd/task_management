@@ -23,7 +23,7 @@ pipeline {
                         sh "ls"
                         def venvPath = "${env.WORKSPACE}/venv/bin"
                         def pythonCommand = "${venvPath}/python"
-                        def pipCommand = "${venvPath}/pip"
+                        def pipCommand = "${venvPath}/pip3"
 
                         // Activate the virtual environment
                         sh ". ${venvPath}/activate"
@@ -67,6 +67,7 @@ pipeline {
                             sh "${pipCommand} run -m pytest unit.py"
                             sh "${pipCommand} report -m"
                             sh "${pipCommand} xml -o coverage.xml"
+                            sh "ls"
                                 // sh "${pipCommand} run -a integration.py"
                                 // sh "${pipCommand} report -m"
                                 // sh "${pipCommand} xml -o shekhar.xml"
