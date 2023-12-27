@@ -63,13 +63,13 @@ pipeline {
                             // Combine XML reports
                                 // sh "${pipCommand} report -m"
                                 // sh "${pipCommand} xml -o merger_report.xml"
-                            sh "${pipCommand} run -m pytest unit.py"
-                            sh "${pipCommand} report -m"
-                            sh "${pipCommand} xml"                                
+                            sh "${pipCommand} run unit.py"
+                            // sh "${pipCommand} report -m"
+                            // sh "${pipCommand} xml"                                
                             sh "ls"
-                                // sh "${pipCommand} run -a integration.py"
-                                // sh "${pipCommand} report -m"
-                                // sh "${pipCommand} xml -o shekhar.xml"
+                                sh "${pipCommand} run -a integration.py"
+                                sh "${pipCommand} report -m"
+                                sh "${pipCommand} xml"
                         }
                     }
                 }
