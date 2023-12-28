@@ -87,6 +87,21 @@ pipeline {
         }
     }
 }
+stage('Analyze image') {
+    steps {
+        // Install Docker Scout
+        
+
+            withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'                
+                                    // Log into Docker Hub
+                sh 'echo $PASS | docker login -u $USER --password-stdin'
+                    // Analyze and fail on critical or high vulnerabilities
+                sh 'docker-scout cves shekhar123reddy/my-react --exit-code --only-severity critical,high --output report.json'
+                }
+    }
+}
+
     }
 
 } // if you want post block then place this cursur into last of the line
