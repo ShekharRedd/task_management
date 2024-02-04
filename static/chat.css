@@ -1,0 +1,33 @@
+/* chat.css */
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5; /* Set your desired background color */
+}
+
+h1 {
+    color: #333;
+}
+
+.chart {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    width: 300px;
+    height: 300px;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+}
+
+.bar {
+    width: 20px;
+    background-color: #3498db;
+    transition: height 0.5s ease-in-out;
+    margin-bottom: 10px;
+}
+
+
+/* Add more styles or bars as needed */

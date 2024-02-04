@@ -1,17 +1,36 @@
-FROM python:3.9
+# FROM python:3.8
 
-RUN mkdir /home/python
+# WORKDIR /app
 
-WORKDIR /home/python/
+# COPY requirements.txt .
+# RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ./requirements.txt .
+# COPY . .
 
-# Install dependencies
-RUN pip install -r requirements.txt
+# # Install SonarQube Scanner
+# RUN wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-<version>.zip && \
+#     unzip sonar-scanner-cli-<version>.zip && \
+#     rm sonar-scanner-cli-<version>.zip
 
-# Copy the application files
-COPY ./templates/ ./templates/
-COPY ./static/ ./static/
-COPY ./app.py .
+# ENV PATH="/app/sonar-scanner-cli-<version>/bin:${PATH}"
 
-CMD ["python", "app.py"]
+# CMD ["sonar-scanner", "-X"]
+
+
+FROM python:latest
+
+RUN mkdir /home/python 
+
+WORKDIR /home/python
+COPY ./static ./static
+
+COPY ./templates ./templates 
+
+COPY ./app.py ./app.py 
+
+COPY ./requirements.txt ./requirements.txt 
+
+
+RUN pip install -r /home/python/requirements.txt 
+
+CMD [ "python","app.py" ]
